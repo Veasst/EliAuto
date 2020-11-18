@@ -1,7 +1,8 @@
 ## Interface: 90002
 ## Title: EliAutoLoot
 ## Author: Eliviel
-## Version: 0.0.2
+## Version: 0.0.3
 ## SavedVariables: loot_gold, loot_quest_items, loot_quality_items, only_auto_loot_key
 
 EliAutoLoot.lua
+Config.lua
