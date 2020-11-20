@@ -17,6 +17,10 @@ local function init()
         config.loot_quality_items = {[0]=false, false, false, false, false, false, false};
         config.only_auto_loot_key = true;
     end
+
+    if config.no_auto_loot_key == nil then
+        config.no_auto_loot_key = "None";
+    end
     
     local settings = CreateFrame("Frame");
     settings.name = "EliAutoLoot";
@@ -106,7 +110,42 @@ local function init()
         function(self)
             config.only_auto_loot_key = self:GetChecked();
         end);
-    
+
+    -- no auto-loot key
+    local no_auto_loot_key = settings:CreateFontString(nil, "OVERLAY", "GameFontNormal");
+    no_auto_loot_key:SetPoint("TOPLEFT", 300, -320);
+    no_auto_loot_key:SetJustifyH("LEFT");
+    no_auto_loot_key:SetJustifyV("TOP");
+    no_auto_loot_key:SetText("No auto loot key");
+
+    settings.no_auto_loot_key_dropdown = CreateFrame("FRAME", nil, settings, "UIDropDownMenuTemplate");
+    settings.no_auto_loot_key_dropdown:SetPoint("TOPLEFT", 300, -340);
+    UIDropDownMenu_SetWidth(settings.no_auto_loot_key_dropdown, 100);
+    UIDropDownMenu_SetText(settings.no_auto_loot_key_dropdown, config.no_auto_loot_key);
+
+    UIDropDownMenu_Initialize(settings.no_auto_loot_key_dropdown, function(self, level, menuList)
+        -- common
+        local info = UIDropDownMenu_CreateInfo();
+        info.func = function(self, arg1, arg2, checked)
+            UIDropDownMenu_SetText(settings.no_auto_loot_key_dropdown, self:GetText());
+            config.no_auto_loot_key = self:GetText();
+        end;
+        info.notCheckable = true;
+        -- end common
+        info.text = "ALT key";
+        info.checked = info.text == config.no_auto_loot_key;
+        UIDropDownMenu_AddButton(info);
+        info.text = "CTRL key";
+        info.checked = info.text == config.no_auto_loot_key;
+        UIDropDownMenu_AddButton(info);
+        info.text = "SHIFT key";
+        info.checked = info.text == config.no_auto_loot_key;
+        UIDropDownMenu_AddButton(info);
+        info.text = "None";
+        info.checked = info.text == config.no_auto_loot_key;
+        UIDropDownMenu_AddButton(info);
+    end);
+
     InterfaceOptions_AddCategory(settings);
 end
 

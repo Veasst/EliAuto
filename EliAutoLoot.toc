@@ -1,7 +1,7 @@
 ## Interface: 90002
 ## Title: EliAutoLoot
 ## Author: Eliviel
-## Version: 0.0.3
+## Version: 0.1.0
 ## SavedVariables: config
 
 EliAutoLoot.lua

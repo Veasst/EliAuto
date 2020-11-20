@@ -10,6 +10,11 @@ frame:RegisterEvent("LOOT_READY");
 
 frame:SetScript("OnEvent", function(self, event, arg1)
     if event == "LOOT_READY" then
+        if (config.no_auto_loot_key == "ALT key" and IsAltKeyDown())
+            or (config.no_auto_loot_key == "CTRL key" and IsControlKeyDown())
+            or (config.no_auto_loot_key == "SHIFT key" and IsShiftKeyDown()) then
+            return;
+        end
         if (config.only_auto_loot_key and GetCVarBool("autoLootDefault") ~= IsModifiedClick("AUTOLOOTTOGGLE"))
             or (not config.only_auto_loot_key) then
             for i = GetNumLootItems(), 1, -1 do
