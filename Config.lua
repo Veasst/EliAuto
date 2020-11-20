@@ -10,17 +10,12 @@ local function create_check_button(parent, x_loc, y_loc, display_name, checked)
 end
 
 local function init()
-    if loot_gold == nil then
-        loot_gold = true;
-    end
-    if loot_quest_items == nil then
-        loot_quest_items = false;
-    end
-    if loot_quality_items == nil then
-        loot_quality_items = {[0]=false, false, false, false, false, false, false};
-    end
-    if only_auto_loot_key == nil then
-        only_auto_loot_key = true;
+    if config == nil then
+        config = {};
+        config.loot_gold = true;
+        config.loot_quest_items = false;
+        config.loot_quality_items = {[0]=false, false, false, false, false, false, false};
+        config.only_auto_loot_key = true;
     end
     
     local settings = CreateFrame("Frame");
@@ -46,48 +41,48 @@ local function init()
     looting_options_line:SetThickness(1);
     
     -- gold
-    settings.loot_gold_checkbox = create_check_button(settings, 16, -80, "Loot gold", loot_gold);
+    settings.loot_gold_checkbox = create_check_button(settings, 16, -80, "Loot gold", config.loot_gold);
     settings.loot_gold_checkbox.tooltip = "Loots gold";
     settings.loot_gold_checkbox:SetScript("OnClick", 
         function(self)
-            loot_gold = self:GetChecked();
+            config.loot_gold = self:GetChecked();
         end);
     
     -- quest items
-    settings.loot_quest_items_checkbox = create_check_button(settings, 16, -110, "Loot quest items", loot_quest_items);
+    settings.loot_quest_items_checkbox = create_check_button(settings, 16, -110, "Loot quest items", config.loot_quest_items);
     settings.loot_quest_items_checkbox.tooltip = "Loots all quest items";
     settings.loot_quest_items_checkbox:SetScript("OnClick", 
         function(self)
-            loot_quest_items = self:GetChecked();
+            config.loot_quest_items = self:GetChecked();
         end);
     
     -- quality
     settings.loot_quality_items_checkbox = {};
-    settings.loot_quality_items_checkbox[0] = create_check_button(settings, 300, -80, "Loot |cff9d9d9dpoor |cffffffffitems", loot_quality_items[0]);
+    settings.loot_quality_items_checkbox[0] = create_check_button(settings, 300, -80, "Loot |cff9d9d9dpoor |cffffffffitems", config.loot_quality_items[0]);
     settings.loot_quality_items_checkbox[0].tooltip = "Loots all |cff9d9d9dpoor |cffffffffquality items";
     
-    settings.loot_quality_items_checkbox[1] = create_check_button(settings, 300, -110, "Loot common items", loot_quality_items[1]);
+    settings.loot_quality_items_checkbox[1] = create_check_button(settings, 300, -110, "Loot common items", config.loot_quality_items[1]);
     settings.loot_quality_items_checkbox[1].tooltip = "Loots all common quality items";
     
-    settings.loot_quality_items_checkbox[2] = create_check_button(settings, 300, -140, "Loot |cff1eff00uncommon |cffffffffitems", loot_quality_items[2]);
+    settings.loot_quality_items_checkbox[2] = create_check_button(settings, 300, -140, "Loot |cff1eff00uncommon |cffffffffitems", config.loot_quality_items[2]);
     settings.loot_quality_items_checkbox[2].tooltip = "Loots all |cff1eff00uncommon |cffffffffquality items";
     
-    settings.loot_quality_items_checkbox[3] = create_check_button(settings, 300, -170, "Loot |cff0070ddrare |cffffffffitems", loot_quality_items[3]);
+    settings.loot_quality_items_checkbox[3] = create_check_button(settings, 300, -170, "Loot |cff0070ddrare |cffffffffitems", config.loot_quality_items[3]);
     settings.loot_quality_items_checkbox[3].tooltip = "Loots all |cff0070ddrare |cffffffffquality items";
     
-    settings.loot_quality_items_checkbox[4] = create_check_button(settings, 300, -200, "Loot |cffa335eeepic |cffffffffitems", loot_quality_items[4]);
+    settings.loot_quality_items_checkbox[4] = create_check_button(settings, 300, -200, "Loot |cffa335eeepic |cffffffffitems", config.loot_quality_items[4]);
     settings.loot_quality_items_checkbox[4].tooltip = "Loots all |cffa335eeepic |cffffffffquality items";
     
-    settings.loot_quality_items_checkbox[5] = create_check_button(settings, 300, -230, "Loot |cffff8000legendary |cffffffffitems", loot_quality_items[5]);
+    settings.loot_quality_items_checkbox[5] = create_check_button(settings, 300, -230, "Loot |cffff8000legendary |cffffffffitems", config.loot_quality_items[5]);
     settings.loot_quality_items_checkbox[5].tooltip = "Loots all |cffff8000legendary |cffffffffquality items";
     
-    settings.loot_quality_items_checkbox[6] = create_check_button(settings, 300, -260, "Loot |cffe6cc80artifact |cffffffffitems", loot_quality_items[6]);
+    settings.loot_quality_items_checkbox[6] = create_check_button(settings, 300, -260, "Loot |cffe6cc80artifact |cffffffffitems", config.loot_quality_items[6]);
     settings.loot_quality_items_checkbox[6].tooltip = "Loots all |cffe6cc80artifact |cffffffffquality items";
     
     for i = 0, 6, 1 do
         settings.loot_quality_items_checkbox[i]:SetScript("OnClick", 
             function(self)
-                loot_quality_items[i] = self:GetChecked();
+                config.loot_quality_items[i] = self:GetChecked();
             end);
     end
 
@@ -105,11 +100,11 @@ local function init()
     other_options_line:SetThickness(1);
 
     -- only auto-loot key
-    settings.only_auto_loot_key_checkbox = create_check_button(settings, 16, -320, "Only auto loot key", only_auto_loot_key);
+    settings.only_auto_loot_key_checkbox = create_check_button(settings, 16, -320, "Only auto loot key", config.only_auto_loot_key);
     settings.only_auto_loot_key_checkbox.tooltip = "Auto loots only when auto loot key is held down";
     settings.only_auto_loot_key_checkbox:SetScript("OnClick", 
         function(self)
-            only_auto_loot_key = self:GetChecked();
+            config.only_auto_loot_key = self:GetChecked();
         end);
     
     InterfaceOptions_AddCategory(settings);
