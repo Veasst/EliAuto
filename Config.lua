@@ -9,7 +9,7 @@ local function create_check_button(parent, x_loc, y_loc, display_name, checked)
 	return check_button;
 end
 
-local function init()
+local function init_config_variables()
     if config == nil then
         config = {};
         config.loot_gold = true;
@@ -21,9 +21,26 @@ local function init()
     if config.no_auto_loot_key == nil then
         config.no_auto_loot_key = "None";
     end
-    
-    local settings = CreateFrame("Frame");
+end
+
+local eli_auto = nil;
+local function init_eli_auto()
+    eli_auto = CreateFrame("Frame", nil, UIParent);
+    eli_auto.name = "EliAuto";
+
+    local label = eli_auto:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge");
+    label:SetPoint("TOPLEFT", 16, -16);
+    label:SetJustifyH("LEFT");
+    label:SetJustifyV("TOP");
+    label:SetText("EliAuto");
+
+    InterfaceOptions_AddCategory(eli_auto);
+end
+
+local function init_auto_loot()
+    local settings = CreateFrame("Frame", nil, eli_auto);
     settings.name = "EliAutoLoot";
+    settings.parent = eli_auto.name;
 
     local label = settings:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge");
     label:SetPoint("TOPLEFT", 16, -16);
@@ -147,6 +164,12 @@ local function init()
     end);
 
     InterfaceOptions_AddCategory(settings);
+end
+
+local function init()
+    init_config_variables();
+    init_eli_auto();
+    init_auto_loot();
 end
 
 local frame = CreateFrame("Frame");
