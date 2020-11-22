@@ -1,6 +1,8 @@
-local function has_value(list, value)
-	for _, v in pairs(list) do
-		if v == value then return true end
+local function has_value(t, value)
+	for _, v in pairs(t) do
+        if v == value then
+            return true;
+        end
 	end
 	return false;
 end

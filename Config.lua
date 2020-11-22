@@ -1,3 +1,20 @@
+local function has_value(t, value)
+	for _, v in pairs(t) do
+        if v == value then
+            return true;
+        end
+	end
+	return false;
+end
+
+local function get_index_by_value(t, value)
+    for index, v in ipairs(t) do
+        if v == value then
+            return index;
+        end
+    end
+end
+
 local check_button_id = 0;
 local function create_check_button(parent, x_loc, y_loc, display_name, checked)
 	check_button_id = check_button_id + 1;
@@ -49,6 +66,10 @@ local function init_config_variables()
 
     if config.auto_sell == nil then
         config.auto_sell = false;
+    end
+
+    if config.ignored_sell_items == nil then
+        config.ignored_sell_items = {};
     end
 end
 
@@ -392,11 +413,97 @@ local function init_auto_sell()
     InterfaceOptions_AddCategory(settings);
 end
 
+local function get_ignored_items_string()
+    local str = "";
+    for _, value in ipairs(config.ignored_sell_items) do
+        str = str..value.."\n";
+    end
+    return str;
+end
+
+local function init_ignored_items()
+    local settings = CreateFrame("Frame", nil, eli_auto);
+    settings.name = "EliAutoSell - ignore list";
+    settings.parent = eli_auto.name;
+
+    local label = settings:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge");
+    label:SetPoint("TOPLEFT", 16, -16);
+    label:SetJustifyH("LEFT");
+    label:SetJustifyV("TOP");
+    label:SetText("EliAutoSell - ignore list");
+
+    local ignored_sell_items_frame = CreateFrame("Frame", nil, settings, BackdropTemplateMixin and "BackdropTemplate");
+    ignored_sell_items_frame:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+		edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
+		tile = true, tileSize = 16, edgeSize = 16,
+		insets = {left = 3, right = 3, top = 5, bottom = 3}}
+    );
+    ignored_sell_items_frame:SetBackdropColor(0,0,0,1);
+    ignored_sell_items_frame:SetWidth(315);
+    ignored_sell_items_frame:SetHeight(515);
+    ignored_sell_items_frame:SetPoint("TOPLEFT", 16, -50);
+
+    local ignored_sell_items_edit_box = CreateFrame("EditBox", nil, ignored_sell_items_frame);
+    ignored_sell_items_edit_box:SetMultiLine(true);
+    ignored_sell_items_edit_box:SetSize(300, 300);
+    ignored_sell_items_edit_box:SetPoint("TOPLEFT", 8, -8);
+    ignored_sell_items_edit_box:SetAutoFocus(false);
+    ignored_sell_items_edit_box:SetCursorPosition(0);
+    ignored_sell_items_edit_box:SetFontObject(ChatFontNormal);
+    ignored_sell_items_edit_box:SetText(get_ignored_items_string());
+    ignored_sell_items_edit_box:EnableMouse(false);
+
+    local ignored_items_scroll_frame = CreateFrame("ScrollFrame", nil, ignored_sell_items_frame, "UIPanelScrollFrameTemplate");
+    ignored_items_scroll_frame:SetSize(300, 500);
+    ignored_items_scroll_frame:SetPoint("TOPLEFT", 8, -8);
+    ignored_items_scroll_frame:SetScrollChild(ignored_sell_items_edit_box);
+
+    local ignored_sell_items_change_edit_box = CreateFrame("EditBox", nil, settings, "InputBoxTemplate");
+    ignored_sell_items_change_edit_box:SetMultiLine(false);
+    ignored_sell_items_change_edit_box:SetSize(150, 30);
+    ignored_sell_items_change_edit_box:SetPoint("TOPLEFT", 400, -150);
+    ignored_sell_items_change_edit_box:SetAutoFocus(false);
+    ignored_sell_items_change_edit_box:SetText("item name");
+    ignored_sell_items_change_edit_box:SetCursorPosition(0);
+
+    local ignored_sell_items_change_add_button = CreateFrame("Button", nil, settings, "GameMenuButtonTemplate");
+    ignored_sell_items_change_add_button:SetPoint("TOPLEFT", 375, -180);
+    ignored_sell_items_change_add_button:SetSize(75, 30);
+    ignored_sell_items_change_add_button:SetText("Add");
+    ignored_sell_items_change_add_button:SetScript("OnClick",
+        function(self, button, down)
+            local item_name = ignored_sell_items_change_edit_box:GetText();
+            if not has_value(config.ignored_sell_items, item_name) then
+                table.insert(config.ignored_sell_items, item_name);
+                ignored_sell_items_edit_box:SetText(get_ignored_items_string());
+                ignored_sell_items_change_edit_box:SetText("");
+            end
+        end);
+
+    local ignored_sell_items_change_remove_button = CreateFrame("Button", nil, settings, "GameMenuButtonTemplate");
+    ignored_sell_items_change_remove_button:SetPoint("TOPLEFT", 500, -180);
+    ignored_sell_items_change_remove_button:SetSize(75, 30);
+    ignored_sell_items_change_remove_button:SetText("Remove");
+    ignored_sell_items_change_remove_button:SetScript("OnClick",
+        function(self, button, down)
+            local item_name = ignored_sell_items_change_edit_box:GetText();
+            local index = get_index_by_value(config.ignored_sell_items, item_name);
+            if index then
+                table.remove(config.ignored_sell_items, index);
+                ignored_sell_items_edit_box:SetText(get_ignored_items_string());
+                ignored_sell_items_change_edit_box:SetText("");
+            end
+        end);
+
+    InterfaceOptions_AddCategory(settings);
+end
+
 local function init()
     init_config_variables();
     init_eli_auto();
     init_auto_loot();
     init_auto_sell();
+    init_ignored_items();
 end
 
 local frame = CreateFrame("Frame");
