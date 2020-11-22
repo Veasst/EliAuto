@@ -71,8 +71,6 @@ local function init_config_variables()
     if config.ignored_sell_items == nil then
         config.ignored_sell_items = {};
     end
-
-    config.ignore_class_types[12] = false;
 end
 
 local eli_auto = nil;
@@ -372,17 +370,20 @@ local function init_auto_sell()
     settings.ignore_class_types_checkbox[8] = create_check_button(settings, 300, -330, "Ignore recipes", config.ignore_class_types[9]);
     settings.ignore_class_types_checkbox[8].tooltip = "Ignores recipes";
 
-    settings.ignore_class_types_checkbox[9] = create_check_button(settings, 300, -360, "Ignore miscellaneous", config.ignore_class_types[15]);
-    settings.ignore_class_types_checkbox[9].tooltip = "Ignores miscellaneous items";
+    settings.ignore_class_types_checkbox[9] = create_check_button(settings, 300, -360, "Ignore quest items", config.ignore_class_types[12]);
+    settings.ignore_class_types_checkbox[9].tooltip = "Ignores quest items";
 
-    settings.ignore_class_types_checkbox[10] = create_check_button(settings, 300, -390, "Ignore glyphs", config.ignore_class_types[16]);
-    settings.ignore_class_types_checkbox[10].tooltip = "Ignores glyphs";
+    settings.ignore_class_types_checkbox[10] = create_check_button(settings, 300, -390, "Ignore miscellaneous", config.ignore_class_types[15]);
+    settings.ignore_class_types_checkbox[10].tooltip = "Ignores miscellaneous items";
 
-    settings.ignore_class_types_checkbox[11] = create_check_button(settings, 300, -420, "Ignore battle pets", config.ignore_class_types[17]);
-    settings.ignore_class_types_checkbox[11].tooltip = "Ignores battle pets";
+    settings.ignore_class_types_checkbox[11] = create_check_button(settings, 300, -420, "Ignore glyphs", config.ignore_class_types[16]);
+    settings.ignore_class_types_checkbox[11].tooltip = "Ignores glyphs";
+
+    settings.ignore_class_types_checkbox[12] = create_check_button(settings, 300, -450, "Ignore battle pets", config.ignore_class_types[17]);
+    settings.ignore_class_types_checkbox[12].tooltip = "Ignores battle pets";
 
     local i = 1;
-    local type_class_ids = {0, 1, 2, 3, 4, 7, 8, 9, 15, 16, 17};
+    local type_class_ids = {0, 1, 2, 3, 4, 7, 8, 9, 12, 15, 16, 17};
     for _, value in ipairs(type_class_ids) do
         settings.ignore_class_types_checkbox[i]:SetScript("OnClick",
         function(self)
