@@ -71,6 +71,8 @@ local function init_config_variables()
     if config.ignored_sell_items == nil then
         config.ignored_sell_items = {};
     end
+
+    config.ignore_class_types[12] = false;
 end
 
 local eli_auto = nil;

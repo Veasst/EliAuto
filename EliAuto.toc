@@ -1,7 +1,7 @@
 ## Interface: 90002
 ## Title: EliAuto
 ## Author: Eliviel
-## Version: 0.2.0
+## Version: 0.2.1
 ## SavedVariables: config
 
 Config.lua
