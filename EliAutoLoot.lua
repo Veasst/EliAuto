@@ -30,9 +30,3 @@ frame:SetScript("OnEvent", function(self, event, arg1)
         end
     end
 end);
-
-SLASH_ELIAUTOLOOT1, SLASH_ELIAUTOLOOT2 = '/eliautoloot', '/eal';
-function SlashCmdList.ELIAUTOLOOT(msg, editBox)
-    InterfaceOptionsFrame_Show();
-    InterfaceOptionsFrame_OpenToCategory("EliAutoLoot");
-end
