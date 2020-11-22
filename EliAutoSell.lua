@@ -1,10 +1,3 @@
-local function has_value(list, value)
-	for _, v in pairs(list) do
-		if v == value then return true end
-	end
-	return false;
-end
-
 local function sell_items()
     local total = 0
     for bag = 0,4 do
@@ -40,3 +33,10 @@ frame:SetScript("OnEvent", function(self, event, arg1)
         end
     end
 end);
+
+local dialog = StaticPopupDialogs["CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL"];
+dialog.OnAccept = nil;
+dialog.OnShow = function()
+    StaticPopup_Hide("CONFIRM_MERCHANT_TRADE_TIMER_REMOVAL");
+    SellCursorItem();
+end
