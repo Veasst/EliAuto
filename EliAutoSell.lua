@@ -24,12 +24,20 @@ local function sell_items()
     end
 end
 
+local sell_button = nil;
+
 local frame = CreateFrame("Frame");
 frame:RegisterEvent("MERCHANT_SHOW");
 frame:SetScript("OnEvent", function(self, event, arg1)
     if event == "MERCHANT_SHOW" then
         if config.auto_sell then
             sell_items();
+        end
+        if not sell_button then
+            sell_button = CreateFrame("Button", nil, MerchantFrame, "OptionsButtonTemplate");
+            sell_button:SetPoint("TOPLEFT", 60, -30);
+            sell_button:SetText("EliAutoSell");
+            sell_button:SetScript("OnClick", sell_items);
         end
     end
 end);
