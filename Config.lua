@@ -10,6 +10,7 @@ local function create_check_button(parent, x_loc, y_loc, display_name, checked)
 end
 
 local function init_config_variables()
+    -- auto loot
     if config == nil then
         config = {};
         config.loot_gold = true;
@@ -22,6 +23,7 @@ local function init_config_variables()
         config.no_auto_loot_key = "None";
     end
 
+    -- auto sell
     if config.sell_quality_items == nil then
         config.sell_quality_items = {[0]=false, false, false, false, false};
     end
@@ -310,51 +312,54 @@ local function init_auto_sell()
 
     -- ignore options
     local ignore_options = settings:CreateFontString(nil, "OVERLAY", "GameFontNormal");
-    ignore_options:SetPoint("TOPLEFT", 16, -300);
+    ignore_options:SetPoint("TOPLEFT", 16, -270);
     ignore_options:SetJustifyH("LEFT");
     ignore_options:SetJustifyV("TOP");
     ignore_options:SetText("Ignore options");
 
     local ignore_options_line = settings:CreateLine();
     ignore_options_line:SetColorTexture(0.169, 0.169, 0.169, 1);
-    ignore_options_line:SetStartPoint("TOPLEFT", 15, -315);
-    ignore_options_line:SetEndPoint("TOPRIGHT", -15, -315);
+    ignore_options_line:SetStartPoint("TOPLEFT", 15, -285);
+    ignore_options_line:SetEndPoint("TOPRIGHT", -15, -285);
     ignore_options_line:SetThickness(1);
 
     -- ignore item type
     settings.ignore_class_types_checkbox = {};
-    settings.ignore_class_types_checkbox[1] = create_check_button(settings, 16, -330, "Ignore consumables", config.ignore_class_types[0]);
+    settings.ignore_class_types_checkbox[1] = create_check_button(settings, 16, -300, "Ignore consumables", config.ignore_class_types[0]);
     settings.ignore_class_types_checkbox[1].tooltip = "Ignores consumables";
 
-    settings.ignore_class_types_checkbox[2] = create_check_button(settings, 16, -360, "Ignore containers", config.ignore_class_types[1]);
+    settings.ignore_class_types_checkbox[2] = create_check_button(settings, 16, -330, "Ignore containers", config.ignore_class_types[1]);
     settings.ignore_class_types_checkbox[2].tooltip = "Ignores containers";
 
-    settings.ignore_class_types_checkbox[3] = create_check_button(settings, 16, -390, "Ignore weapons", config.ignore_class_types[2]);
+    settings.ignore_class_types_checkbox[3] = create_check_button(settings, 16, -360, "Ignore weapons", config.ignore_class_types[2]);
     settings.ignore_class_types_checkbox[3].tooltip = "Ignores weapons";
 
-    settings.ignore_class_types_checkbox[4] = create_check_button(settings, 16, -420, "Ignore gems", config.ignore_class_types[3]);
+    settings.ignore_class_types_checkbox[4] = create_check_button(settings, 16, -390, "Ignore gems", config.ignore_class_types[3]);
     settings.ignore_class_types_checkbox[4].tooltip = "Ignores gems";
 
-    settings.ignore_class_types_checkbox[5] = create_check_button(settings, 16, -450, "Ignore armor", config.ignore_class_types[4]);
+    settings.ignore_class_types_checkbox[5] = create_check_button(settings, 16, -420, "Ignore armor", config.ignore_class_types[4]);
     settings.ignore_class_types_checkbox[5].tooltip = "Ignores armor";
 
-    settings.ignore_class_types_checkbox[6] = create_check_button(settings, 300, -330, "Ignore profession items", config.ignore_class_types[7]);
+    settings.ignore_class_types_checkbox[6] = create_check_button(settings, 16, -450, "Ignore profession items", config.ignore_class_types[7]);
     settings.ignore_class_types_checkbox[6].tooltip = "Ignores profession items";
 
-    settings.ignore_class_types_checkbox[7] = create_check_button(settings, 300, -360, "Ignore enchancement items", config.ignore_class_types[8]);
+    settings.ignore_class_types_checkbox[7] = create_check_button(settings, 300, -300, "Ignore enchancement items", config.ignore_class_types[8]);
     settings.ignore_class_types_checkbox[7].tooltip = "Ignores enchancement items";
 
-    settings.ignore_class_types_checkbox[8] = create_check_button(settings, 300, -390, "Ignore recipes", config.ignore_class_types[9]);
+    settings.ignore_class_types_checkbox[8] = create_check_button(settings, 300, -330, "Ignore recipes", config.ignore_class_types[9]);
     settings.ignore_class_types_checkbox[8].tooltip = "Ignores recipes";
 
-    settings.ignore_class_types_checkbox[9] = create_check_button(settings, 300, -420, "Ignore glyphs", config.ignore_class_types[16]);
-    settings.ignore_class_types_checkbox[9].tooltip = "Ignores glyphs";
+    settings.ignore_class_types_checkbox[9] = create_check_button(settings, 300, -360, "Ignore miscellaneous", config.ignore_class_types[15]);
+    settings.ignore_class_types_checkbox[9].tooltip = "Ignores miscellaneous items";
 
-    settings.ignore_class_types_checkbox[10] = create_check_button(settings, 300, -450, "Ignore battle pets", config.ignore_class_types[17]);
-    settings.ignore_class_types_checkbox[10].tooltip = "Ignores battle pets";
+    settings.ignore_class_types_checkbox[10] = create_check_button(settings, 300, -390, "Ignore glyphs", config.ignore_class_types[16]);
+    settings.ignore_class_types_checkbox[10].tooltip = "Ignores glyphs";
+
+    settings.ignore_class_types_checkbox[11] = create_check_button(settings, 300, -420, "Ignore battle pets", config.ignore_class_types[17]);
+    settings.ignore_class_types_checkbox[11].tooltip = "Ignores battle pets";
 
     local i = 1;
-    local type_class_ids = {0, 1, 2, 3, 4, 7, 8, 9, 16, 17};
+    local type_class_ids = {0, 1, 2, 3, 4, 7, 8, 9, 15, 16, 17};
     for _, value in ipairs(type_class_ids) do
         settings.ignore_class_types_checkbox[i]:SetScript("OnClick",
         function(self)

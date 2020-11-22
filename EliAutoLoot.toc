@@ -4,5 +4,6 @@
 ## Version: 0.1.0
 ## SavedVariables: config
 
-EliAutoLoot.lua
 Config.lua
+EliAutoLoot.lua
+EliAutoSell.lua

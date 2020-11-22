@@ -2,12 +2,11 @@ local function has_value(list, value)
 	for _, v in pairs(list) do
 		if v == value then return true end
 	end
-	return false
+	return false;
 end
 
 local frame = CreateFrame("Frame");
 frame:RegisterEvent("LOOT_READY");
-
 frame:SetScript("OnEvent", function(self, event, arg1)
     if event == "LOOT_READY" then
         if (config.no_auto_loot_key == "ALT key" and IsAltKeyDown())
