@@ -1,5 +1,5 @@
 ## Interface: 90002
-## Title: EliAutoLoot
+## Title: EliAuto
 ## Author: Eliviel
 ## Version: 0.2.0
 ## SavedVariables: config

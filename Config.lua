@@ -509,7 +509,7 @@ end
 local frame = CreateFrame("Frame");
 frame:RegisterEvent("ADDON_LOADED");
 frame:SetScript("OnEvent", function(self, event, arg1)
-    if event == "ADDON_LOADED" and arg1 == "EliAutoLoot" then
+    if event == "ADDON_LOADED" and arg1 == "EliAuto" then
         init();
     end
 end);
