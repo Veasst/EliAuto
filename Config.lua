@@ -292,14 +292,14 @@ local function init_auto_sell()
 
     -- item level
     local sell_item_level_slider = CreateFrame("Slider", "SELL_ITEM_LEVEL_SLIDER", settings, "OptionsSliderTemplate");
-    sell_item_level_slider:SetMinMaxValues(1, 200);
+    sell_item_level_slider:SetMinMaxValues(1, 300);
     sell_item_level_slider:SetValue(config.sell_item_level);
     sell_item_level_slider:SetValueStep(1);
     sell_item_level_slider:SetWidth(250);
     sell_item_level_slider:SetOrientation('HORIZONTAL');
     sell_item_level_slider:SetPoint("TOPLEFT", 16, -230);
     _G[sell_item_level_slider:GetName() .. "Low"]:SetText("1");
-    _G[sell_item_level_slider:GetName() .. "High"]:SetText("200");
+    _G[sell_item_level_slider:GetName() .. "High"]:SetText("300");
     _G[sell_item_level_slider:GetName() .. "Text"]:SetText("Sell items only under item level");
 
     local sell_item_level_edit_box = CreateFrame("EditBox", nil, settings, "InputBoxTemplate");
@@ -321,8 +321,8 @@ local function init_auto_sell()
     sell_item_level_edit_box:SetScript("OnEnterPressed",
         function(self)
             local value = self:GetNumber();
-            if value > 200 then
-                value = 200;
+            if value > 300 then
+                value = 300;
             elseif value < 0 then
                 value = 0;
             end
