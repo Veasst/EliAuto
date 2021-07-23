@@ -16,15 +16,17 @@ local function sell_items()
                 local item_name, _, item_rarity, _, _, _, _, _, _, _, item_sell_price, item_class_id, _, item_bind_type, _, _, _ = GetItemInfo(item_link);
                 local _, item_count = GetContainerItemInfo(bag, slot);
                 local item_level = GetDetailedItemLevelInfo(item_link);
-                if not has_value(config.ignored_sell_items, item_name)
-                    and config.sell_quality_items[item_rarity]
-                    and (config.sell_bind_items[item_bind_type]
-                        or config.sell_equippable_items)
-                    and item_level <= config.sell_item_level
-                    and not config.ignore_class_types[item_class_id]
-                    and item_sell_price ~= 0 then
-                    total = total + (item_sell_price * item_count);
-                    UseContainerItem(bag, slot);
+                if not has_value(config.ignored_sell_items, item_name) then
+                    if (config.sell_quality_items[item_rarity] and item_rarity == 0)
+                        or (config.sell_quality_items[item_rarity]
+                            and (config.sell_bind_items[item_bind_type]
+                                or config.sell_equippable_items)
+                            and item_level <= config.sell_item_level
+                            and not config.ignore_class_types[item_class_id])
+                        and item_sell_price ~= 0 then
+                        total = total + (item_sell_price * item_count);
+                        UseContainerItem(bag, slot);
+                    end
                 end
             end
         end
