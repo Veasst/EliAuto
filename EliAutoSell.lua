@@ -45,9 +45,10 @@ frame:SetScript("OnEvent", function(self, event, arg1)
             sell_items();
         end
         if not sell_button then
-            sell_button = CreateFrame("Button", nil, MerchantFrame, "OptionsButtonTemplate");
+            sell_button = CreateFrame("Button", nil, MerchantFrame, "UIPanelButtonTemplate");
             sell_button:SetPoint("TOPLEFT", 60, -30);
             sell_button:SetText("EliAutoSell");
+            sell_button:SetWidth(sell_button:GetTextWidth() + 10)
             sell_button:SetScript("OnClick", sell_items);
         end
     end

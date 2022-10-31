@@ -74,6 +74,7 @@ local function init_config_variables()
 end
 
 local eli_auto = nil;
+local eli_auto_category = nil;
 local function init_eli_auto()
     eli_auto = CreateFrame("Frame", nil, UIParent);
     eli_auto.name = "EliAuto";
@@ -84,7 +85,8 @@ local function init_eli_auto()
     label:SetJustifyV("TOP");
     label:SetText("EliAuto");
 
-    InterfaceOptions_AddCategory(eli_auto);
+    eli_auto_category = Settings.RegisterCanvasLayoutCategory(eli_auto, "EliAuto");
+    Settings.RegisterAddOnCategory(eli_auto_category);
 end
 
 local function init_auto_loot()
@@ -213,7 +215,8 @@ local function init_auto_loot()
         UIDropDownMenu_AddButton(info);
     end);
 
-    InterfaceOptions_AddCategory(settings);
+    local category = Settings.RegisterCanvasLayoutSubcategory(eli_auto_category, settings, "EliAutoLoot");
+    Settings.RegisterAddOnCategory(category);
 end
 
 local function init_auto_sell()
@@ -413,7 +416,8 @@ local function init_auto_sell()
             config.auto_sell = self:GetChecked();
         end);
 
-    InterfaceOptions_AddCategory(settings);
+    local category = Settings.RegisterCanvasLayoutSubcategory(eli_auto_category, settings, "EliAutoSell");
+    Settings.RegisterAddOnCategory(category);
 end
 
 local function get_ignored_items_string()
@@ -498,7 +502,8 @@ local function init_ignored_items()
             end
         end);
 
-    InterfaceOptions_AddCategory(settings);
+    local category = Settings.RegisterCanvasLayoutSubcategory(eli_auto_category, settings, "EliAutoSell - ignore list");
+    Settings.RegisterAddOnCategory(category);
 end
 
 local function init()
@@ -519,12 +524,10 @@ end);
 
 SLASH_ELIAUTOLOOT1, SLASH_ELIAUTOLOOT2 = '/eliautoloot', '/eal';
 function SlashCmdList.ELIAUTOLOOT(msg, editBox)
-    InterfaceOptionsFrame_Show();
-    InterfaceOptionsFrame_OpenToCategory("EliAutoLoot");
+    Settings.OpenToCategory("EliAutoLoot");
 end
 
 SLASH_ELIAUTOSELL1, SLASH_ELIAUTOSELL2 = '/eliautosell', '/eas';
 function SlashCmdList.ELIAUTOSELL(msg, editBox)
-    InterfaceOptionsFrame_Show();
-    InterfaceOptionsFrame_OpenToCategory("EliAutoSell");
+    Settings.OpenToCategory("EliAutoSell");
 end
